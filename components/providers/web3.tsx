@@ -2,7 +2,7 @@ import { createContext, memo, useContext, useEffect, useMemo, useState } from "r
 import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
 import { provider } from 'web3-core';
-import { setupHooks } from "./hooks/setupHooks";
+import { setupHooks } from "../hooks/web3/setupHooks";
 
 export type CustomHooks = {
   [name: string]: () => any;

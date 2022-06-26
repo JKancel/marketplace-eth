@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Web3 from "web3";
-import { useHooks } from "../web3";
+import { useHooks } from "../../providers/web3";
 import useSWR from "swr";
 
 const adminAddresses: { [key: string]: boolean; } = {
