@@ -1,8 +1,9 @@
 export type WalletBarProps = {
   address?: string;
+  network?: number;
 };
 
-export const WalletBar = ({ address }: WalletBarProps) => (
+export const WalletBar = ({ address, network }: WalletBarProps) => (
   <section className="text-white bg-indigo-600">
     <div className="p-8">
       <h1 className="text-2xl">
@@ -25,7 +26,7 @@ export const WalletBar = ({ address }: WalletBarProps) => (
         <div>
           <div>
             <span>Currently on </span>
-            <strong className="text-2xl">Ethereum Main Network</strong>
+            <strong className="text-2xl">{network}</strong>
           </div>
         </div>
       </div>
