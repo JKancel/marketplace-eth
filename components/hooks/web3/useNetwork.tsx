@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Web3 from "web3";
-import useSWR, { SWRResponse } from "swr";
+import useSWR from "swr";
+import { EnhanceSWRResponse } from "model/common/customSWR";
 
 interface Networks {
   [key: number | string]: string;
@@ -18,7 +19,7 @@ const NETWORKS: Networks = {
 
 const targetNetwork = NETWORKS[process.env.NEXT_PUBLIC_TARGET_CHAIN_ID || 1337];
 
-export type NetworkHookRes = SWRResponse & {
+export type NetworkHookRes = EnhanceSWRResponse & {
   target: string;
   isSupported: boolean;
 };

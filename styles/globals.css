@@ -6,6 +6,10 @@
   min-height: calc(100vh - 88px);
 }
 
+.next-image-wrapper > * {
+  height: 100%!important;
+}
+
 /* html,
 body {
   padding: 0;

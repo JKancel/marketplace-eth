@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import Web3 from "web3";
-import useSWR, { SWRResponse } from "swr";
+import useSWR from "swr";
+import { EnhanceSWRResponse } from "model/common/customSWR";
 
 const adminAddresses: { [key: string]: boolean; } = {
   "0xc8f8a43d75617377230a387977f727e0f44d44215e33f0f756f97093929e4326": true,
 };
 
-export type AccountHookRes = SWRResponse & {
+export type AccountHookRes = EnhanceSWRResponse & {
   isAdmin: boolean;
 };
 

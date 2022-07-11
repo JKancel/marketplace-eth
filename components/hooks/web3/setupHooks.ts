@@ -1,9 +1,8 @@
 
 
-import { CustomHooks, useHooks } from "@components/providers";
+import { useHooks } from "@components/providers";
 import { SWRResponse } from "swr";
 import Web3 from "web3";
-import { HttpProvider, IpcProvider, WebsocketProvider, AbstractProvider } from "web3-core";
 import { AccountHookRes, createAccountHook } from "./useAccount";
 import { createNetworkHook, NetworkHookRes } from "./useNetwork";
 

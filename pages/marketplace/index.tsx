@@ -5,6 +5,7 @@ import { Course, getAllCourses } from "content/courses/fetcher";
 import { CustomNextPage } from "model/common/customNextPages";
 import { useAccount } from "@components/hooks/web3/setupHooks";
 import { useNetwork } from "@components/hooks/web3/setupHooks";
+import { Button } from "@components/ui";
 
 type MarketplaceProps = {
   courses: Course[];
@@ -18,10 +19,28 @@ const Marketplace: CustomNextPage<MarketplaceProps> = ({
   return (
     <>
       <div className="py-4">
-        <WalletBar address={account.data} network={{data: network?.data, target: network.target, isSupported: network.isSupported, hasInitialResponse: network.hasInitialResponse}}/>
+        <WalletBar
+          address={account.data}
+          network={{
+            data: network?.data,
+            target: network.target,
+            isSupported: network.isSupported,
+            hasInitialResponse: network.hasInitialResponse || false,
+          }}
+        />
       </div>
       <CourseList courses={courses}>
-        {(course: Course) => <Card key={course.id} course={course}/>}
+        {(course: Course) => (
+          <Card
+            key={course.id}
+            course={course}
+            Footer={() => (
+              <div className="mt-4">
+                <Button variant="lightPurple">Purchase</Button>
+              </div>
+            )}
+          />
+        )}
       </CourseList>
     </>
   );
