@@ -3,8 +3,8 @@ import { Card, List as CourseList } from "@components/ui/course";
 import { BaseLayout } from "@components/ui/layout";
 import { Course, getAllCourses } from "content/courses/fetcher";
 import { CustomNextPage } from "model/common/customNextPages";
-import { useAccount } from "@components/hooks/web3/useAccount";
-import { useNetwork } from "@components/hooks/web3/useNetwork";
+import { useAccount } from "@components/hooks/web3/setupHooks";
+import { useNetwork } from "@components/hooks/web3/setupHooks";
 
 type MarketplaceProps = {
   courses: Course[];
@@ -18,7 +18,7 @@ const Marketplace: CustomNextPage<MarketplaceProps> = ({
   return (
     <>
       <div className="py-4">
-        <WalletBar address={account.data} network={{data: network?.data, target: network.target, isSupported: network.isSupported}}/>
+        <WalletBar address={account.data} network={{data: network?.data, target: network.target, isSupported: network.isSupported, hasInitialResponse: network.hasInitialResponse}}/>
       </div>
       <CourseList courses={courses}>
         {(course: Course) => <Card key={course.id} course={course}/>}

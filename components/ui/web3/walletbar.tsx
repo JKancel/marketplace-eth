@@ -1,6 +1,6 @@
 export type WalletBarProps = {
   address?: string;
-  network?: { data: number; target: string; isSupported: boolean };
+  network?: { data: number; target: string; isSupported: boolean, hasInitialResponse: boolean };
 };
 
 export const WalletBar = ({ address, network }: WalletBarProps) => (
@@ -22,7 +22,7 @@ export const WalletBar = ({ address, network }: WalletBarProps) => (
           </div>
         </div>
         <div>
-          {!network?.isSupported && (
+          {network?.hasInitialResponse && !network?.isSupported && (
             <div className="rounded-lg bg-red-400 p-4">
               <div className="">Connected to wrong network</div>
               <div className="">

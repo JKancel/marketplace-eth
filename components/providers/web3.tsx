@@ -17,8 +17,8 @@ export type Web3State = {
   web3: any;
   contract: any;
   isLoading: boolean;
+  hooks: CustomHooks;
   connect?: () => void;
-  getHooks?: () => CustomHooks;
 };
 
 const Web3Context = createContext<Web3State>({} as Web3State);
@@ -28,7 +28,8 @@ export const Web3Provider = memo(({ children }: Web3ProviderProps) => {
     provider: null,
     web3: null,
     contract: null,
-    isLoading: true
+    isLoading: true,
+    hooks: setupHooks(null, null)
   });
   useEffect(() => {
     const loadProvider = async () => {
@@ -39,7 +40,8 @@ export const Web3Provider = memo(({ children }: Web3ProviderProps) => {
           provider,
           web3,
           contract: null,
-          isLoading: false
+          isLoading: false,
+          hooks: setupHooks(web3, provider)
         });
       } else {
         setWeb3Api(api => ({...api, isLoading: false}));
@@ -51,7 +53,6 @@ export const Web3Provider = memo(({ children }: Web3ProviderProps) => {
     
   const _web3Api = useMemo(() => ({
     ...web3Api,
-    getHooks: () => setupHooks(web3Api.web3, web3Api.provider),
     connect: web3Api.provider ? 
     async () => {
       try {
@@ -82,6 +83,6 @@ export const useWeb3 = () => {
 
 
 export const useHooks = (callBack: (arg: CustomHooks | undefined) => any) => {
-  const { getHooks } = useWeb3();
-  return callBack(getHooks && getHooks());
+  const { hooks } = useWeb3();
+  return callBack(hooks && hooks);
 };
