@@ -1,13 +1,13 @@
 
 
-import { useHooks } from "@components/providers";
+import { CustomHooks, useHooks } from "@components/providers";
 import { SWRResponse } from "swr";
 import Web3 from "web3";
 import { HttpProvider, IpcProvider, WebsocketProvider, AbstractProvider } from "web3-core";
-import { createAccountHook } from "./useAccount";
-import { createNetworkHook } from "./useNetwork";
+import { AccountHookRes, createAccountHook } from "./useAccount";
+import { createNetworkHook, NetworkHookRes } from "./useNetwork";
 
-export const enhanceHook = (swrResponse: SWRResponse) => {
+export const enhanceHook = (swrResponse: SWRResponse & any) => {
   return {
     ...swrResponse,
     hasInitialResponse: swrResponse.data || swrResponse.error,
@@ -15,10 +15,10 @@ export const enhanceHook = (swrResponse: SWRResponse) => {
 };
 
 export const useNetwork = () =>
-({ network: enhanceHook(useHooks(hooks => hooks?.useNetwork)()) });
+({ network: enhanceHook(useHooks(hooks => hooks?.useNetwork)()) as NetworkHookRes });
 
 export const useAccount = () => 
-({account: enhanceHook(useHooks(hooks => hooks?.useAccount)()) });
+({account: enhanceHook(useHooks(hooks => hooks?.useAccount)()) as AccountHookRes });
 
 export const setupHooks = (web3: Web3 | null, provider: any) => {
   return {

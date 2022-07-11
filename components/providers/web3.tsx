@@ -84,7 +84,7 @@ export const useWeb3 = () => {
 };
 
 
-export const useHooks = (callBack: (arg: CustomHooks | undefined) => any) => {
+export const useHooks = (callBack: (arg: CustomHooks) => any) => {
   const { hooks } = useWeb3();
   return callBack(hooks && hooks);
 };

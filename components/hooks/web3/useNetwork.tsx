@@ -18,8 +18,13 @@ const NETWORKS: Networks = {
 
 const targetNetwork = NETWORKS[process.env.NEXT_PUBLIC_TARGET_CHAIN_ID || 1337];
 
+export type NetworkHookRes = SWRResponse & {
+  target: string;
+  isSupported: boolean;
+};
+
 export const createNetworkHook =
-  (web3: Web3 | null, provider: any) => (): SWRResponse & any => {
+  (web3: Web3 | null, provider: any) => (): NetworkHookRes => {
     const { data, mutate, ...rest } = useSWR(
       () => (web3 ? "web3/network" : null), // trigger the fetcher when web3 is ready
       async () => {

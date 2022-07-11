@@ -5,7 +5,7 @@ import { useAccount } from "@components/hooks/web3/setupHooks";
 import { useRouter } from "next/router";
 
 export const Navbar = () => {
-  const { connect, isLoading, web3 } = useWeb3();
+  const { connect, isLoading, requireInstall } = useWeb3();
   const { account } = useAccount();
   const { pathname } = useRouter();
   return (
@@ -38,15 +38,17 @@ export const Navbar = () => {
               </Link>
               {isLoading ? (
                 <Button disabled={true}>Loading...</Button>
-              ) : web3 ?
+              ) :
               account?.data ?
               (
                 <Button hoverable={false} className="cursor-default">Hi there {account?.isAdmin ? "Admin" : ""}</Button>
               ) : 
+              requireInstall ?
+              (
+                <Button onClick={() => window.open('https://metamask.io/download/', '_blank')}>Install&nbsp;Metamask</Button>
+              ) :
               (
                 <Button onClick={connect}>Connect&nbsp;Wallet</Button>
-              ) : (
-                <Button onClick={() => window.open('https://metamask.io/download/', '_blank')}>Install&nbsp;Metamask</Button>
               )}
             </div>
           </div>

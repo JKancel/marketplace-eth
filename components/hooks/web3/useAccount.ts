@@ -6,7 +6,11 @@ const adminAddresses: { [key: string]: boolean; } = {
   "0xc8f8a43d75617377230a387977f727e0f44d44215e33f0f756f97093929e4326": true,
 };
 
-export const createAccountHook = (web3: Web3 | null, provider: any) => (): SWRResponse & any => {
+export type AccountHookRes = SWRResponse & {
+  isAdmin: boolean;
+};
+
+export const createAccountHook = (web3: Web3 | null, provider: any) => (): AccountHookRes => {
   const { data, mutate, ...rest } = useSWR(() =>
     web3 ? "web3/accounts" : null, // trigger the fetcher when web3 is ready
     async () => {
@@ -23,7 +27,7 @@ export const createAccountHook = (web3: Web3 | null, provider: any) => (): SWRRe
 
   return {
     data,
-    isAdmin: web3 && data && !!adminAddresses[web3.utils.keccak256(data)],
+    isAdmin: data && !!adminAddresses[web3!.utils.keccak256(data)] || false,
     mutate,
     ...rest
   };
