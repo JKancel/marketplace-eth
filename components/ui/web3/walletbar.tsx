@@ -1,14 +1,12 @@
 export type WalletBarProps = {
   address?: string;
-  network?: number;
+  network?: { data: number; target: string; isSupported: boolean };
 };
 
 export const WalletBar = ({ address, network }: WalletBarProps) => (
   <section className="text-white bg-indigo-600">
     <div className="p-8">
-      <h1 className="text-2xl">
-        Hello, {address}
-      </h1>
+      <h1 className="text-2xl">Hello, {address}</h1>
       <h2 className="subtitle mb-5 text-xl">
         I hope you are having a great day!
       </h2>
@@ -24,10 +22,21 @@ export const WalletBar = ({ address, network }: WalletBarProps) => (
           </div>
         </div>
         <div>
-          <div>
-            <span>Currently on </span>
-            <strong className="text-2xl">{network}</strong>
-          </div>
+          {!network?.isSupported && (
+            <div className="rounded-lg bg-red-400 p-4">
+              <div className="">Connected to wrong network</div>
+              <div className="">
+                Connecte to: {` `}
+                <strong className="text-2xl">{network?.target}</strong>
+              </div>
+            </div>
+          )}
+          {network?.data && (
+            <div>
+              <span>Currently on </span>
+              <strong className="text-2xl">{network?.data}</strong>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import { useHooks } from "../../providers/web3";
 import useSWR from "swr";
 
 interface Networks {
-  [key: number]: string;
+  [key: number | string]: string;
 }
 
 const NETWORKS: Networks = {
@@ -17,8 +17,10 @@ const NETWORKS: Networks = {
   1337: "Ganache"
 }
 
+const targetNetwork = NETWORKS[process.env.NEXT_PUBLIC_TARGET_CHAIN_ID || 1337];
+
 export const createNetworkHook = (web3: Web3, provider: any) => (): { network: any; } => {
-  const { mutate, ...rest } = useSWR(() =>
+  const { data, mutate, ...rest } = useSWR(() =>
     web3 ? "web3/network" : null, // trigger the fetcher when web3 is ready
     async () => {
       return NETWORKS[await web3?.eth.getChainId()];
@@ -33,7 +35,10 @@ export const createNetworkHook = (web3: Web3, provider: any) => (): { network: a
 
   return {
     network: {
+      data,
       mutate,
+      target: targetNetwork,
+      isSupported: data === targetNetwork,
       ...rest
     }
   };
