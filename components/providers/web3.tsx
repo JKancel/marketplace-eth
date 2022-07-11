@@ -19,6 +19,7 @@ export type Web3State = {
   isLoading: boolean;
   hooks: CustomHooks;
   connect?: () => void;
+  requireInstall?: boolean;
 };
 
 const Web3Context = createContext<Web3State>({} as Web3State);
@@ -53,6 +54,7 @@ export const Web3Provider = memo(({ children }: Web3ProviderProps) => {
     
   const _web3Api = useMemo(() => ({
     ...web3Api,
+    requireInstall: !web3Api.isLoading && !web3Api.web3,
     connect: web3Api.provider ? 
     async () => {
       try {
