@@ -1,5 +1,5 @@
 import { WalletBar } from "@components/ui/web3";
-import { List as CourseList } from "@components/ui/course";
+import { Card, List as CourseList } from "@components/ui/course";
 import { BaseLayout } from "@components/ui/layout";
 import { Course, getAllCourses } from "content/courses/fetcher";
 import { CustomNextPage } from "model/common/customNextPages";
@@ -20,7 +20,9 @@ const Marketplace: CustomNextPage<MarketplaceProps> = ({
       <div className="py-4">
         <WalletBar address={account.data} network={network?.data}/>
       </div>
-      <CourseList courses={courses} />
+      <CourseList courses={courses}>
+        {(course: Course) => <Card key={course.id} course={course}/>}
+      </CourseList>
     </>
   );
 };
