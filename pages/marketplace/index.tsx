@@ -5,7 +5,8 @@ import { Course, getAllCourses } from "content/courses/fetcher";
 import { CustomNextPage } from "model/common/customNextPages";
 import { useAccount } from "@components/hooks/web3/setupHooks";
 import { useNetwork } from "@components/hooks/web3/setupHooks";
-import { Button } from "@components/ui";
+import { Button, OrderModal } from "@components/ui";
+import { useState } from "react";
 
 type MarketplaceProps = {
   courses: Course[];
@@ -16,6 +17,7 @@ const Marketplace: CustomNextPage<MarketplaceProps> = ({
 }: MarketplaceProps) => {
   const { account } = useAccount();
   const { network } = useNetwork();
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   return (
     <>
       <div className="py-4">
@@ -36,12 +38,23 @@ const Marketplace: CustomNextPage<MarketplaceProps> = ({
             course={course}
             Footer={() => (
               <div className="mt-4">
-                <Button variant="lightPurple">Purchase</Button>
+                <Button
+                  onClick={() => setSelectedCourse(course)}
+                  variant="lightPurple"
+                >
+                  Purchase
+                </Button>
               </div>
             )}
           />
         )}
       </CourseList>
+      {selectedCourse && (
+        <OrderModal
+          course={selectedCourse}
+          onClose={() => setSelectedCourse(null)}
+        />
+      )}
     </>
   );
 };
