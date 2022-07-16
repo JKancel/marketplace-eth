@@ -1,8 +1,9 @@
 import { useEthPrice } from "@components/hooks/useEthPrice";
 import { useWalletInfo } from "@components/hooks/web3/setupHooks";
-import { Button, OrderModal } from "@components/ui";
+import { Breadcrumbs, Button, OrderModal } from "@components/ui";
 import { Card, List as CourseList } from "@components/ui/course";
 import { BaseLayout } from "@components/ui/layout";
+import { MarketHeader } from "@components/ui/marketplace/header";
 import { EthRates, WalletBar } from "@components/ui/web3";
 import { Course, getAllCourses } from "content/courses/fetcher";
 import { CustomNextPage } from "model/common/customNextPages";
@@ -16,22 +17,12 @@ const Marketplace: CustomNextPage<MarketplaceProps> = ({
   courses,
 }: MarketplaceProps) => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const { ethPrice } = useEthPrice();
-  const { canPurchaseCourse, account, network } = useWalletInfo();
+  const { canPurchaseCourse } = useWalletInfo();
 
   return (
     <>
       <div className="py-4">
-        <WalletBar
-          address={account.data}
-          network={{
-            data: network?.data,
-            target: network.target,
-            isSupported: network.isSupported,
-            hasInitialResponse: network.hasInitialResponse || false,
-          }}
-        />
-        <EthRates ethPrice={ethPrice.data} ethPricePerItem={ethPrice.perItem}/>
+        <MarketHeader />
       </div>
       <CourseList courses={courses}>
         {(course: Course) => (
