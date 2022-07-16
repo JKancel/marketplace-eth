@@ -19,9 +19,21 @@ export const useNetwork = () =>
 export const useAccount = () => 
 ({account: enhanceHook(useHooks(hooks => hooks?.useAccount)()) as AccountHookRes });
 
+export const useWalletInfo = () => {
+  const { account } = useAccount()
+  const { network } = useNetwork()
+
+  return {
+    account,
+    network,
+    canPurchaseCourse: !!(account.data && network.isSupported)
+  }
+}
+
 export const setupHooks = (web3: Web3 | null, provider: any) => {
   return {
     useAccount: createAccountHook(web3, provider),
     useNetwork: createNetworkHook(web3, provider)
   };
 };
+

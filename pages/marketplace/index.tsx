@@ -1,11 +1,11 @@
-import { WalletBar } from "@components/ui/web3";
+import { useEthPrice } from "@components/hooks/useEthPrice";
+import { useWalletInfo } from "@components/hooks/web3/setupHooks";
+import { Button, OrderModal } from "@components/ui";
 import { Card, List as CourseList } from "@components/ui/course";
 import { BaseLayout } from "@components/ui/layout";
+import { EthRates, WalletBar } from "@components/ui/web3";
 import { Course, getAllCourses } from "content/courses/fetcher";
 import { CustomNextPage } from "model/common/customNextPages";
-import { useAccount } from "@components/hooks/web3/setupHooks";
-import { useNetwork } from "@components/hooks/web3/setupHooks";
-import { Button, OrderModal } from "@components/ui";
 import { useState } from "react";
 
 type MarketplaceProps = {
@@ -15,9 +15,10 @@ type MarketplaceProps = {
 const Marketplace: CustomNextPage<MarketplaceProps> = ({
   courses,
 }: MarketplaceProps) => {
-  const { account } = useAccount();
-  const { network } = useNetwork();
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const { ethPrice } = useEthPrice();
+  const { canPurchaseCourse, account, network } = useWalletInfo();
+
   return (
     <>
       <div className="py-4">
@@ -30,16 +31,19 @@ const Marketplace: CustomNextPage<MarketplaceProps> = ({
             hasInitialResponse: network.hasInitialResponse || false,
           }}
         />
+        <EthRates ethPrice={ethPrice.data} ethPricePerItem={ethPrice.perItem}/>
       </div>
       <CourseList courses={courses}>
         {(course: Course) => (
           <Card
+            disabled={!canPurchaseCourse}
             key={course.id}
             course={course}
             Footer={() => (
               <div className="mt-4">
                 <Button
                   onClick={() => setSelectedCourse(course)}
+                  disabled={!canPurchaseCourse}
                   variant="lightPurple"
                 >
                   Purchase

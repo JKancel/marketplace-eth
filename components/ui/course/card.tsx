@@ -6,9 +6,10 @@ import { Course } from "content/courses/fetcher";
 type CardProps = {
   course: Course;
   Footer?: FC;
+  disabled?: boolean;
 };
 
-export const Card: FC<CardProps> = ({ course, Footer }) => {
+export const Card: FC<CardProps> = ({ course, Footer, disabled }) => {
   return (
     <div
       className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
@@ -16,7 +17,7 @@ export const Card: FC<CardProps> = ({ course, Footer }) => {
       <div className="flex h-full">
         <div className="flex-1 h-full next-image-wrapper">
           <Image
-            className="object-cover"
+            className={`object-cover ${disabled && "filter grayscale"}`}
             src={course.coverImage}
             alt={course.title}
             layout="responsive"
