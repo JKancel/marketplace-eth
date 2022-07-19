@@ -2,13 +2,12 @@ import useSWR from "swr";
 
 // const URL = "https://api.coingecko.com/api/v3/coins/ethereum?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false";
 const URL = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
-const COURSE_PRICE = 15
+export const COURSE_PRICE = 15
 
 const fetcher = async (url: string) => {
   const res = await fetch(url)
   const json = await res.json()
   // return json.market_data.current_price.usd ?? null
-  console.log('refreshing!');
   return json.ethereum.usd ?? null
 }
 

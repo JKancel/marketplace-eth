@@ -15,10 +15,10 @@ const LINKS = [{
 
 export const MarketHeader = () => {
   return (
-    <>
+    <div className="py-4">
       <WalletBar />
       <EthRates />
       <Breadcrumbs items={LINKS} />
-    </>
+    </div>
   )
 }

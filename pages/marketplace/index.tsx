@@ -1,13 +1,13 @@
 import { useEthPrice } from "@components/hooks/useEthPrice";
 import { useWalletInfo } from "@components/hooks/web3/setupHooks";
-import { Breadcrumbs, Button, OrderModal } from "@components/ui";
+import { Breadcrumbs, Button, Order, OrderModal } from "@components/ui";
 import { Card, List as CourseList } from "@components/ui/course";
 import { BaseLayout } from "@components/ui/layout";
 import { MarketHeader } from "@components/ui/marketplace/header";
 import { EthRates, WalletBar } from "@components/ui/web3";
 import { Course, getAllCourses } from "content/courses/fetcher";
 import { CustomNextPage } from "model/common/customNextPages";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type MarketplaceProps = {
   courses: Course[];
@@ -19,11 +19,14 @@ const Marketplace: CustomNextPage<MarketplaceProps> = ({
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const { canPurchaseCourse } = useWalletInfo();
 
+  const purchaseCourse = useCallback((order: Order) => {
+    console.log(order);
+  }
+  , []);
+  
   return (
     <>
-      <div className="py-4">
-        <MarketHeader />
-      </div>
+      <MarketHeader />
       <CourseList courses={courses}>
         {(course: Course) => (
           <Card
@@ -47,6 +50,7 @@ const Marketplace: CustomNextPage<MarketplaceProps> = ({
       {selectedCourse && (
         <OrderModal
           course={selectedCourse}
+          onSubmit={purchaseCourse}
           onClose={() => setSelectedCourse(null)}
         />
       )}
